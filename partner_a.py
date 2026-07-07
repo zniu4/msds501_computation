@@ -32,9 +32,12 @@ readings = ['72.1', '68.5', 'N/A', '74.0', 'sensor_error', '69.3']
 valid = []
 
 for i, r in enumerate(readings):
-    temp = float(r)           # <-- this line crashes on bad strings
-    print(f'Reading [{i}]: {temp}')
-    valid.append(temp)
+    try:
+        temp = float(r)           # <-- this line crashes on bad strings #this is because it raises a ValueError because N/A is not a float, it is a string.
+        print(f'Reading [{i}]: {temp}')
+        valid.append(temp)
+    except ValueError: #this ValueError catches the ValueError and prevents the code from crashing
+        print (f" Reading [{i}] is not an integer:{r}") #this will print the index and tell the user why the ValueError was raised
 
 average = sum(valid) / len(valid)
 print(f'Average of valid readings: {round(average, 2)}')
