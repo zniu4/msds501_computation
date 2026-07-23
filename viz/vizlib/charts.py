@@ -58,3 +58,54 @@ def bar_chart(
         plt.close(fig)
 
     return output_path
+
+
+def line_chart(
+    x: Sequence[float],
+    y: Sequence[float],
+    title: str,
+    xlabel: str = "x",
+    ylabel: str = "y",
+    output_path: str = "line_chart.png",
+) -> str:
+    """Draw a line chart and save it as a PNG file.
+
+    Args:
+        x: The x-coordinate of each point.
+        y: The y-coordinate of each point. Must be the same length as ``x``.
+        title: The title shown at the top of the chart.
+        xlabel: The label for the x-axis. Defaults to ``"x"``.
+        ylabel: The label for the y-axis. Defaults to ``"y"``.
+        output_path: Where to save the PNG file. Defaults to ``line_chart.png``
+            in the current working directory.
+
+    Returns:
+        The path to the saved PNG file.
+
+    Raises:
+        ValueError: If ``x`` and ``y`` do not have the same length, or if
+            ``x`` is empty.
+    """
+    if len(x) != len(y):
+        raise ValueError(
+            f"x and y must have the same length, got {len(x)} and {len(y)}"
+        )
+    if len(x) == 0:
+        raise ValueError("x must not be empty")
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot(x, y, color="#4C72B0", marker="o")
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.grid(True, linestyle="--", alpha=0.5)
+    fig.tight_layout()
+
+    # Ensure the figure is always closed, even if saving fails, so we don't
+    # leak figures across many calls.
+    try:
+        fig.savefig(output_path, dpi=150)
+    finally:
+        plt.close(fig)
+
+    return output_path
