@@ -1,0 +1,7 @@
+# Generated chart images
+*.png
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
